@@ -34,17 +34,31 @@
 
       <!-- main navigation, laid over both panes -->
       <nav class="nav" aria-label="Main">
-        <a class="brand" href="#">
+        <a class="brand" href="index.html">
           <span class="brand__name">HEROines</span><span class="brand__home">home</span>
         </a>
 
         <ul class="nav__list">
-          <li class="nav__item"><a class="nav__link is-current" href="#" aria-current="page">About</a></li>
-          <li class="nav__item"><a class="nav__link" href="#">Events</a></li>
-          <li class="nav__item"><a class="nav__link" href="#">Community</a></li>
-          <li class="nav__item"><a class="nav__link" href="#">Join</a></li>
-          <li class="nav__item"><a class="nav__link" href="#">Contact</a></li>
-          <li class="nav__item"><a class="nav__link" href="#">Members</a></li>
+          <li class="nav__item">
+            <a class="nav__link is-current" href="index.html" aria-current="page"><span class="nav__label">About</span></a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="events.html"><span class="nav__label">Events</span></a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="#"><span class="nav__label">Community</span></a>
+          </li>
+          <!-- the last three items sit on the photograph, so their hover
+               rule is drawn in white (see .nav__item--photo) -->
+          <li class="nav__item nav__item--photo">
+            <a class="nav__link" href="#"><span class="nav__label">Join</span></a>
+          </li>
+          <li class="nav__item nav__item--photo">
+            <a class="nav__link" href="#"><span class="nav__label">Contact</span></a>
+          </li>
+          <li class="nav__item nav__item--photo">
+            <a class="nav__link" href="#"><span class="nav__label">Members</span></a>
+          </li>
         </ul>
       </nav>
 
