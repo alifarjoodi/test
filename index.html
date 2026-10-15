@@ -14,6 +14,7 @@
         href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;800&display=swap">
 
   <link rel="stylesheet" href="styles.css">
+  <script src="hero-slideshow.js" defer></script>
 </head>
 <body>
 
@@ -21,14 +22,14 @@
   <div class="page">
 
     <!-- ============ HERO ============ -->
-    <header class="hero">
+    <header class="hero hero--slideshow" data-hero-slideshow>
 
-      <!-- peach pane + photo pane -->
+      <!-- The first photo and copy are real HTML so the hero still works without JavaScript. -->
       <div class="hero__panes">
         <div class="hero__pane hero__pane--flat"></div>
-        <div class="hero__pane hero__pane--photo">
-          <img class="hero__photo" src="images/hero.jpg"
-               alt="Three women resting their heads together and smiling at the camera">
+        <div class="hero__pane hero__pane--photo" data-slide-photos>
+          <img class="hero__photo is-active" src="images/hero.jpg" width="443" height="453"
+               fetchpriority="high" alt="Three women lying close together and looking at the camera">
         </div>
       </div>
 
@@ -62,13 +63,32 @@
         </ul>
       </nav>
 
-      <!-- headline -->
-      <h1 class="hero__title">
-        Welcome to HEROines Inc.<br>
-        A safe space and platform<br>
-        to help women master<br>
-        real-life experiences.
-      </h1>
+      <!-- Featured story. Text, link and photograph change together. -->
+      <div class="hero-slide__content" data-slide-content>
+        <p class="hero-slide__eyebrow" data-slide-eyebrow>01 / Our story</p>
+        <h1 class="hero__title" data-slide-title>Welcome to HEROines Inc.<br> A safe space and platform<br> to help women master<br> real-life experiences.</h1>
+        <p class="hero-slide__description" data-slide-description>A place for every woman to feel seen, heard and ready for what comes next.</p>
+        <a class="hero-slide__link" href="#about" data-slide-link>
+          <span data-slide-link-label>Get to know us</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <!-- Controls are shown only after the slideshow script has initialized. -->
+      <div class="hero-carousel" role="group" aria-label="Featured stories controls" hidden>
+        <button class="hero-carousel__arrow" type="button" data-slide-prev aria-label="Previous slide">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6"/></svg>
+        </button>
+        <button class="hero-carousel__arrow" type="button" data-slide-next aria-label="Next slide">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </button>
+        <div class="hero-carousel__pagination" role="group" aria-label="Choose a featured story" data-slide-pagination></div>
+        <button class="hero-carousel__toggle" type="button" data-slide-toggle aria-label="Pause slideshow">
+          <svg class="hero-carousel__icon--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12m6-12v12"/></svg>
+          <svg class="hero-carousel__icon--play" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 9 6-9 6Z"/></svg>
+        </button>
+      </div>
+      <p class="visually-hidden" role="status" aria-live="polite" data-slide-status></p>
 
       <!-- vertical donate button -->
       <a class="donate" href="#">
@@ -81,7 +101,7 @@
     </header>
 
     <!-- ============ ABOUT ============ -->
-    <main class="about">
+    <main class="about" id="about">
 
       <div class="about__heading">
         <h2 class="about__title">About us</h2>
