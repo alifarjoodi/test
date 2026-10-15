@@ -15,10 +15,15 @@
   --ink:           #000000;   /* display type + body copy       */
   --nav-ink:       #000000;   /* active nav item                */
   --white:         #ffffff;
+  --accent:        #8a0c0c;   /* hover colour (nav + events)    */
 
   --shell:         1300px;    /* width of the framed strip      */
   --hero-h:        664px;
   --about-h:       701px;
+
+  /* motion — one shared easing so every hover reads as the same gesture */
+  --ease:          cubic-bezier(.22, .68, .28, 1);
+  --dur:           .34s;
 
   --font-sans:  "Avenir Next", Avenir, "Nunito Sans", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-stack: "Avenir Next", Avenir, "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -89,6 +94,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   padding: 38px 70px 0;
+  z-index: 3;
 }
 
 .brand {
@@ -96,6 +102,8 @@ a { color: inherit; text-decoration: none; }
   align-items: baseline;
   color: var(--white);
   white-space: nowrap;
+  transition: color var(--dur) var(--ease),
+              transform var(--dur) var(--ease);
 }
 
 .brand__name {
@@ -110,6 +118,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 400;
   line-height: 1;
   color: rgba(255, 255, 255, .82);
+  transition: color var(--dur) var(--ease);
 }
 
 .nav__list {
@@ -122,24 +131,105 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
 }
 
+/* the animated hover lives on the link: the label is wrapped in
+   .nav__label (the letter-spacing morph happens there), so the underline
+   pseudo-element is free to grow from the centre. */
 .nav__link {
+  position: relative;
+  display: inline-block;
+  padding: 6px 2px 10px;
   font-size: 18px;
   font-weight: 400;
   line-height: 1.2;
   color: var(--white);
-  transition: opacity .2s ease;
+  transition: color var(--dur) var(--ease);
 }
 
-.nav__link:hover { opacity: .75; }
+.nav__label {
+  display: inline-block;
+  transition: letter-spacing var(--dur) var(--ease),
+              transform var(--dur) var(--ease),
+              opacity var(--dur) var(--ease);
+}
+
+/* the rule that draws itself in on hover */
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  opacity: 0;
+  transition: transform var(--dur) var(--ease),
+              opacity var(--dur) var(--ease),
+              background-color var(--dur) var(--ease);
+}
+
+/* ---------- Navbar hover: animated, colour #8A0C0C ----------
+   colour .34s + a hair of letter-spacing + a small lift, and the rule
+   sweeping out from the centre. */
+.nav__link:hover,
+.nav__link:focus-visible {
+  color: var(--accent);
+}
+
+.nav__link:hover .nav__label,
+.nav__link:focus-visible .nav__label {
+  letter-spacing: .5px;
+  transform: translateY(-1px);
+}
+
+.nav__link:hover::after,
+.nav__link:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* the wordmark takes the same hover */
+.brand:hover,
+.brand:focus-visible {
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.brand:hover .brand__home,
+.brand:focus-visible .brand__home { color: var(--accent); }
+
+/* links that sit on the photograph draw their rule in white, because the
+   accent red would disappear into the photo's shadows; every other link —
+   including the current one — keeps the red rule */
+.nav__item--photo .nav__link::after { background: var(--white); }
 
 .nav__link.is-current { color: var(--nav-ink); }
 
 .nav__link:focus-visible,
 .brand:focus-visible,
-.donate:focus-visible {
+.donate:focus-visible,
+.event__more:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 4px;
   border-radius: 2px;
+}
+
+/* keyboard users get the same reveal without hovering */
+.nav__link:focus-visible { outline-offset: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__link,
+  .nav__label,
+  .nav__link::after,
+  .brand,
+  .brand__home,
+  .event,
+  .event__more { transition-duration: .01ms; }
+
+  .nav__link:hover .nav__label,
+  .nav__link:focus-visible .nav__label { transform: none; }
 }
 
 /* ---------- Headline ---------- */
@@ -244,6 +334,402 @@ a { color: inherit; text-decoration: none; }
 .about__accent { background: var(--orange); }
 
 /* ==========================================================================
+   EVENTS PAGE (events.html)
+   The same frame as the about page — a 664 px hero block, then a banded
+   section. The bands are built from the about page's palette (pink column,
+   white middle, orange accent) plus #8A0C0C, so the two pages read as one
+   site while the event list stays the loudest thing on the screen.
+   ========================================================================== */
+
+/* ---------- Banner ---------- */
+.hero--events .hero__pane--flat { background: var(--pink); }
+
+.event-hero__copy {
+  position: absolute;
+  top: 236px;
+  left: 81px;
+  width: min(540px, 44%);
+  color: var(--white);
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2.6px;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.event-hero__eyebrow { color: var(--accent); }
+
+.event-hero__title {
+  margin-top: 14px;
+  font-size: 76px;
+  font-weight: 800;
+  line-height: .98;
+  letter-spacing: -.5px;
+}
+
+.event-hero__lede {
+  margin-top: 24px;
+  font-size: 19px;
+  line-height: 1.62;
+  max-width: 34ch;
+}
+
+.event-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 40px;
+  margin-top: 38px;
+}
+
+.event-hero__stat {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.event-hero__stat b {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.event-hero__stat span {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .86);
+}
+
+/* ---------- Upcoming list ---------- */
+.events {
+  background: var(--white);
+  padding: 76px 70px 84px;
+}
+
+.events__head {
+  max-width: 62ch;
+}
+
+.events__title {
+  margin-top: 12px;
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.4px;
+}
+
+.events__note {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(0, 0, 0, .68);
+}
+
+.event-list { margin-top: 44px; }
+
+.event {
+  position: relative;
+  display: grid;
+  grid-template-columns: 126px minmax(0, 1fr) max-content;
+  align-items: center;
+  gap: 32px;
+  padding: 30px 0;
+  border-top: 1px solid rgba(0, 0, 0, .12);
+  transition: background-color var(--dur) var(--ease),
+              padding var(--dur) var(--ease);
+}
+
+.event:last-child { border-bottom: 1px solid rgba(0, 0, 0, .12); }
+
+.event::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -70px;
+  width: 4px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: 50% 50%;
+  transition: transform var(--dur) var(--ease);
+}
+
+.event:hover { background: #fff5f3; }
+
+.event:hover::before { transform: scaleY(1); }
+
+/* on the wide layout the row also opens a little on hover; the list is
+   single column further down, where that would only eat the text width */
+@media (min-width: 1025px) {
+  .event:hover { padding-left: 18px; padding-right: 18px; }
+}
+
+/* date chip */
+.event__date {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  color: var(--accent);
+  text-align: center;
+  transition: background-color var(--dur) var(--ease),
+              color var(--dur) var(--ease),
+              transform var(--dur) var(--ease);
+}
+
+.event:hover .event__date {
+  background: var(--accent);
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+.event__day {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.5px;
+}
+
+.event__month {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+/* date block variant for the banner headline row */
+.event__name {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.25;
+  transition: color var(--dur) var(--ease);
+}
+
+.event:hover .event__name { color: var(--accent); }
+
+.event__meta {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, .66);
+}
+
+.event__meta span + span::before {
+  content: "·";
+  margin: 0 9px;
+  color: rgba(0, 0, 0, .38);
+}
+
+.event__blurb {
+  margin-top: 12px;
+  max-width: 58ch;
+  font-size: 16px;
+  line-height: 1.72;
+  color: rgba(0, 0, 0, .82);
+}
+
+.event__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.event__tag {
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* call to action — inverts to #8A0C0C on hover */
+.event__more {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color var(--dur) var(--ease),
+              color var(--dur) var(--ease);
+}
+
+.event__more svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--dur) var(--ease);
+}
+
+.event:hover .event__more,
+.event__more:hover {
+  background: var(--accent);
+  color: var(--white);
+}
+
+.event:hover .event__more svg { transform: translateX(5px); }
+
+/* ---------- Signature series band ---------- */
+.highlights {
+  display: grid;
+  grid-template-columns: 24.85% 52.9% 22.25%;
+  min-height: 520px;
+  background: var(--white);
+}
+
+.highlights__heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pink);
+}
+
+.highlights__title {
+  writing-mode: vertical-rl;
+  font-family: var(--font-stack);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -1px;
+  transform: translate(10px, 18px);
+}
+
+.highlights__body {
+  display: flex;
+  align-items: center;
+  padding: 52px 44px;
+}
+
+.series {
+  width: 100%;
+  max-width: 470px;
+  margin: 0 auto;
+}
+
+.series__item {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 18px;
+  padding: 22px 0;
+  border-top: 1px solid rgba(0, 0, 0, .12);
+}
+
+.series__item:last-child { border-bottom: 1px solid rgba(0, 0, 0, .12); }
+
+.series__num {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--accent);
+  line-height: 1.9;
+}
+
+.series__name {
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.3;
+  transition: color var(--dur) var(--ease);
+}
+
+.series__item:hover .series__name { color: var(--accent); }
+
+.series__copy {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.72;
+  color: rgba(0, 0, 0, .72);
+}
+
+.highlights__accent { background: var(--orange); }
+
+/* ---------- Host / join band ---------- */
+.host {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px 48px;
+  padding: 64px 70px;
+  background: var(--accent);
+  color: var(--white);
+}
+
+.host__copy { max-width: 56ch; }
+
+.host__title {
+  margin-top: 12px;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.host__text {
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.72;
+  color: rgba(255, 255, 255, .88);
+}
+
+.host__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.host__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 28px;
+  border: 2px solid var(--white);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  transition: background-color var(--dur) var(--ease),
+              color var(--dur) var(--ease);
+}
+
+.host__btn:hover { background: var(--white); color: var(--accent); }
+
+.host__btn--ghost {
+  border-color: rgba(255, 255, 255, .55);
+  background: transparent;
+}
+
+.host__btn--ghost:hover {
+  background: transparent;
+  border-color: var(--white);
+  color: var(--white);
+}
+
+.host__eyebrow { color: rgba(255, 255, 255, .78); }
+
+/* ==========================================================================
    SMALL SCREENS — the two blocks stack
    ========================================================================== */
 @media (max-width: 1024px) {
@@ -335,4 +821,66 @@ a { color: inherit; text-decoration: none; }
   .brand__name { font-size: 22px; }
   .about__title { font-size: 40px; }
   .about__copy { font-size: 15px; line-height: 1.75; }
+}
+
+/* ==========================================================================
+   EVENTS PAGE — small screens (banner stacks, the list goes single-column)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .event-hero__copy {
+    order: 2;
+    position: static;
+    width: auto;
+    max-width: 40ch;
+    margin: 40px 28px 0;
+  }
+
+  .event-hero__title { font-size: 52px; }
+  .event-hero__lede { margin-top: 18px; font-size: 17px; }
+  .event-hero__meta { margin-top: 28px; gap: 12px 28px; }
+  .event-hero__stat b { font-size: 25px; }
+
+  .events { padding: 48px 28px 56px; }
+  .events__title { font-size: 34px; }
+  .event-list { margin-top: 30px; }
+
+  .event {
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 18px 22px;
+    padding: 24px 0;
+  }
+
+  .event::before { left: -28px; width: 3px; }
+
+  .event__name { font-size: 22px; }
+  .event__more { grid-column: 1 / -1; justify-self: start; }
+
+  .highlights { grid-template-columns: 1fr; min-height: 0; }
+
+  .highlights__heading { justify-content: flex-start; padding: 34px 28px; }
+
+  .highlights__title {
+    writing-mode: horizontal-tb;
+    font-size: 40px;
+    transform: none;
+  }
+
+  .highlights__body { padding: 34px 28px 42px; }
+  .series { max-width: none; }
+
+  .host { padding: 46px 28px; }
+  .host__title { font-size: 30px; }
+}
+
+@media (max-width: 520px) {
+  .event-hero__title { font-size: 40px; }
+
+  .event { grid-template-columns: 88px minmax(0, 1fr); }
+  .event__day { font-size: 26px; }
+
+  .events__note,
+  .event__blurb { font-size: 15px; }
+
+  .host__actions { width: 100%; }
+  .host__btn { flex: 1 1 auto; justify-content: center; }
 }

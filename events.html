@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HEROines Inc. events — #UnWined, Heels Class for a Cure, #ImprovYourself and more girl-talk evenings. Safe space, great speaker, wine and appetizers.">
+  <title>Events | HEROines Inc.</title>
+
+  <!-- Avenir Next is the design's font; Nunito Sans is the closest free
+       stand-in for everyone who does not have it installed. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;800&display=swap">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Page frame: the whole site sits on the blush page background -->
+  <div class="page">
+
+    <!-- ============ HERO / BANNER ============ -->
+    <header class="hero hero--events">
+
+      <!-- pink pane + photo pane -->
+      <div class="hero__panes">
+        <div class="hero__pane hero__pane--flat"></div>
+        <div class="hero__pane hero__pane--photo">
+          <img class="hero__photo" src="images/hero.jpg"
+               alt="Three women resting their heads together and smiling at the camera">
+        </div>
+      </div>
+
+      <!-- main navigation, laid over both panes -->
+      <nav class="nav" aria-label="Main">
+        <a class="brand" href="index.html">
+          <span class="brand__name">HEROines</span><span class="brand__home">home</span>
+        </a>
+
+        <ul class="nav__list">
+          <li class="nav__item">
+            <a class="nav__link" href="index.html"><span class="nav__label">About</span></a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link is-current" href="events.html" aria-current="page"><span class="nav__label">Events</span></a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="#"><span class="nav__label">Community</span></a>
+          </li>
+          <!-- the last three items sit on the photograph, so their hover
+               rule is drawn in white (see .nav__item--photo) -->
+          <li class="nav__item nav__item--photo">
+            <a class="nav__link" href="#"><span class="nav__label">Join</span></a>
+          </li>
+          <li class="nav__item nav__item--photo">
+            <a class="nav__link" href="#"><span class="nav__label">Contact</span></a>
+          </li>
+          <li class="nav__item nav__item--photo">
+            <a class="nav__link" href="#"><span class="nav__label">Members</span></a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- banner copy -->
+      <div class="event-hero__copy">
+        <p class="eyebrow event-hero__eyebrow">Signature &amp; community events</p>
+
+        <h1 class="event-hero__title">Events</h1>
+
+        <p class="event-hero__lede">Girl talk, hands-on activities and a glass of wine — every
+          HEROines evening is a safe space to try something new.</p>
+
+        <div class="event-hero__meta">
+          <p class="event-hero__stat"><b>6</b><span>Dates 2026&ndash;27</span></p>
+          <p class="event-hero__stat"><b>3</b><span>Signature series</span></p>
+          <p class="event-hero__stat"><b>0</b><span>Judgement</span></p>
+        </div>
+      </div>
+
+      <!-- vertical donate button -->
+      <a class="donate" href="#">
+        <svg class="donate__heart" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 20.5 3.9 12.6a5 5 0 0 1 7.1-7l1 1 1-1a5 5 0 0 1 7.1 7Z"/>
+        </svg>
+        <span class="donate__label">Donate</span>
+      </a>
+
+    </header>
+
+    <!-- ============ UPCOMING LIST ============ -->
+    <main class="events" id="upcoming">
+
+      <div class="events__head">
+        <p class="eyebrow event-hero__eyebrow">What&rsquo;s coming up</p>
+        <h2 class="events__title">Upcoming events</h2>
+        <p class="events__note">Every date is led by a guest speaker who has had a breakthrough in the
+          topic at hand, followed by hands-on games, activities and open conversation. Wine and
+          delicious appetizers included; members attend free.</p>
+      </div>
+
+      <ul class="event-list">
+
+        <li class="event">
+          <p class="event__date">
+            <span class="event__day">24</span>
+            <span class="event__month">Sat<br>Oct 2026</span>
+          </p>
+
+          <div class="event__info">
+            <h3 class="event__name">#UnWined</h3>
+            <p class="event__meta">
+              <span>6:30 pm</span><span>The Loft, Downtown</span><span>2 hrs</span>
+            </p>
+            <p class="event__blurb">Our signature wind-down: an unfiltered girl-talk circle with a
+              speaker who has been there, a glass of wine and no small talk.</p>
+            <p class="event__tags">
+              <span class="event__tag">Signature</span>
+              <span class="event__tag">Wine &amp; appetizers</span>
+            </p>
+          </div>
+
+          <a class="event__more" href="#">
+            Reserve a seat
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </li>
+
+        <li class="event">
+          <p class="event__date">
+            <span class="event__day">07</span>
+            <span class="event__month">Sat<br>Nov 2026</span>
+          </p>
+
+          <div class="event__info">
+            <h3 class="event__name">Heels Class for a Cure</h3>
+            <p class="event__meta">
+              <span>10:00 am</span><span>Studio Nine</span><span>Donation based</span>
+            </p>
+            <p class="event__blurb">Walk the runway, learn a routine and raise money for the cause.
+              No experience &mdash; or balance &mdash; required.</p>
+            <p class="event__tags">
+              <span class="event__tag">Signature</span>
+              <span class="event__tag">Charity</span>
+            </p>
+          </div>
+
+          <a class="event__more" href="#">
+            Reserve a seat
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </li>
+
+        <li class="event">
+          <p class="event__date">
+            <span class="event__day">21</span>
+            <span class="event__month">Sat<br>Nov 2026</span>
+          </p>
+
+          <div class="event__info">
+            <h3 class="event__name">Girl Talk: Money &amp; Me</h3>
+            <p class="event__meta">
+              <span>1:00 pm</span><span>HEROines HQ</span><span>Free for members</span>
+            </p>
+            <p class="event__blurb">An open table about salaries, savings and saying no &mdash; plus
+              the money questions we were never taught to ask out loud.</p>
+            <p class="event__tags">
+              <span class="event__tag">Girl talk</span>
+            </p>
+          </div>
+
+          <a class="event__more" href="#">
+            Reserve a seat
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </li>
+
+        <li class="event">
+          <p class="event__date">
+            <span class="event__day">05</span>
+            <span class="event__month">Sat<br>Dec 2026</span>
+          </p>
+
+          <div class="event__info">
+            <h3 class="event__name">#ImprovYourself</h3>
+            <p class="event__meta">
+              <span>7:00 pm</span><span>The Black Box</span><span>2&frac12; hrs</span>
+            </p>
+            <p class="event__blurb">Improv games that hand you the mic and give you permission to be
+              loud, wrong and funny on purpose.</p>
+            <p class="event__tags">
+              <span class="event__tag">Signature</span>
+              <span class="event__tag">Bring a friend</span>
+            </p>
+          </div>
+
+          <a class="event__more" href="#">
+            Reserve a seat
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </li>
+
+        <li class="event">
+          <p class="event__date">
+            <span class="event__day">16</span>
+            <span class="event__month">Sat<br>Jan 2027</span>
+          </p>
+
+          <div class="event__info">
+            <h3 class="event__name">New Year, Same Me (But Braver)</h3>
+            <p class="event__meta">
+              <span>11:00 am</span><span>HEROines HQ</span><span>Free for members</span>
+            </p>
+            <p class="event__blurb">Goal-setting without the guilt. We swap resolutions for a
+              one-page plan and a room full of women who will check in on you.</p>
+            <p class="event__tags">
+              <span class="event__tag">Workshop</span>
+            </p>
+          </div>
+
+          <a class="event__more" href="#">
+            Reserve a seat
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </li>
+
+        <li class="event">
+          <p class="event__date">
+            <span class="event__day">13</span>
+            <span class="event__month">Sat<br>Feb 2027</span>
+          </p>
+
+          <div class="event__info">
+            <h3 class="event__name">Galentine&rsquo;s Table</h3>
+            <p class="event__meta">
+              <span>6:00 pm</span><span>The Loft, Downtown</span><span>Ticketed</span>
+            </p>
+            <p class="event__blurb">Bring the friend who always has your back. A long table, shared
+              plates and a speaker on friendships that last longer than relationships.</p>
+            <p class="event__tags">
+              <span class="event__tag">Girl talk</span>
+              <span class="event__tag">Bring a friend</span>
+            </p>
+          </div>
+
+          <a class="event__more" href="#">
+            Reserve a seat
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </li>
+
+      </ul>
+    </main>
+
+    <!-- ============ SIGNATURE SERIES BAND ============ -->
+    <section class="highlights" aria-labelledby="highlights-title">
+
+      <div class="highlights__heading">
+        <h2 class="highlights__title" id="highlights-title">Signature</h2>
+      </div>
+
+      <div class="highlights__body">
+        <div class="series">
+
+          <div class="series__item">
+            <p class="series__num">01</p>
+            <div>
+              <h3 class="series__name">#UnWined</h3>
+              <p class="series__copy">A wine-down evening of unfiltered girl talk &mdash; one topic,
+                one honest speaker, zero judgement.</p>
+            </div>
+          </div>
+
+          <div class="series__item">
+            <p class="series__num">02</p>
+            <div>
+              <h3 class="series__name">Heels Class for a Cure</h3>
+              <p class="series__copy">Dance it out, strut it out and raise money for a cause we
+                believe in &mdash; every year, together.</p>
+            </div>
+          </div>
+
+          <div class="series__item">
+            <p class="series__num">03</p>
+            <div>
+              <h3 class="series__name">#ImprovYourself</h3>
+              <p class="series__copy">Improv as life practice: thinking on your feet, taking the
+                space you are given and laughing at yourself first.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="highlights__accent" role="presentation"></div>
+    </section>
+
+    <!-- ============ HOST / JOIN BAND ============ -->
+    <section class="host" aria-labelledby="host-title">
+      <div class="host__copy">
+        <p class="eyebrow host__eyebrow">Bring HEROines to your table</p>
+        <h2 class="host__title" id="host-title">Host an event with us</h2>
+        <p class="host__text">If you have a room, a story or a cause, we will bring the format, the
+          speaker coaching and the good chairs. Tell us what you would like to make happen.</p>
+      </div>
+
+      <div class="host__actions">
+        <a class="host__btn" href="#">Become a host</a>
+        <a class="host__btn host__btn--ghost" href="#">Sponsor an event</a>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>
