@@ -3,7 +3,7 @@
    Layout rebuilt from the design reference: a framed "strip" of two stacked
    blocks — the hero (peach pane + photo pane) and the about band
    (pink / white / orange columns) — sitting on a blush page background.
-   Pure HTML + CSS, no JavaScript, no frameworks.
+   The About hero is progressively enhanced by hero-slideshow.js.
    ========================================================================== */
 
 /* ---------- Tokens ---------- */
@@ -16,6 +16,7 @@
   --nav-ink:       #000000;   /* active nav item                */
   --white:         #ffffff;
   --accent:        #8a0c0c;   /* hover colour (nav + events)    */
+  --hero-ink:      #57232b;   /* readable ink on peach          */
 
   --shell:         1300px;    /* width of the framed strip      */
   --hero-h:        664px;
@@ -52,6 +53,18 @@ h1, h2, p, ul { margin: 0; }
 ul { padding: 0; list-style: none; }
 
 a { color: inherit; text-decoration: none; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* ---------- Page frame ---------- */
 .page {
@@ -247,9 +260,225 @@ a { color: inherit; text-decoration: none; }
 
 /* the four designed line breaks are hard-coded; on narrow screens the
    headline is allowed to re-flow freely instead */
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .hero__title br { display: none; }
 }
+
+/* ---------- About hero slideshow ---------- */
+.hero--slideshow .hero__pane--photo {
+  position: relative;
+  background: #d6a092;
+}
+
+/* Keep every photo in the same frame; only the active one is visible. */
+.hero--slideshow .hero__photo {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .65s var(--ease);
+}
+
+.hero--slideshow .hero__photo.is-active { opacity: 1; }
+
+.hero--slideshow .hero__pane--photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(38, 20, 21, .48), transparent 180px),
+    linear-gradient(to left, rgba(38, 20, 21, .28), transparent 95px);
+  pointer-events: none;
+}
+
+.hero--slideshow .nav__item--photo .nav__link,
+.hero--slideshow .donate { text-shadow: 0 1px 5px rgba(0, 0, 0, .65); }
+
+/* Split the desktop links at the pane edge: the first three stay on peach,
+   and the last three use the photo, even before the layout stacks. */
+@media (min-width: 1181px) {
+  .hero--slideshow .nav__list { flex: 1; margin-left: 28px; }
+  .hero--slideshow .nav__item:nth-child(-n+3) {
+    flex: 0 0 clamp(90px, calc(20.12vw - 152px), 120px);
+  }
+  .hero--slideshow .nav__item--photo { flex: 0 0 clamp(120px, 10vw, 145px); }
+  .hero--slideshow .nav__item:nth-child(4) { margin-left: auto; }
+  .hero--slideshow .nav__link { font-size: clamp(16px, 1.4vw, 18px); }
+}
+
+/* The flat peach pane needs dark ink for comfortable reading. */
+.hero--slideshow .brand,
+.hero--slideshow .nav__item:not(.nav__item--photo) .nav__link {
+  color: var(--hero-ink);
+}
+
+.hero--slideshow .brand__home { color: rgba(87, 35, 43, .8); }
+.hero--slideshow .nav__item:not(.nav__item--photo) .nav__link.is-current { color: var(--ink); }
+
+.hero--slideshow .nav__item:not(.nav__item--photo) .nav__link:hover,
+.hero--slideshow .nav__item:not(.nav__item--photo) .nav__link:focus-visible {
+  color: var(--accent);
+}
+
+.hero-slide__content {
+  position: absolute;
+  z-index: 2;
+  top: clamp(164px, 14.2vw, 185px);
+  left: 81px;
+  width: min(540px, calc(50.3% - 100px));
+  color: var(--hero-ink);
+}
+
+.hero-slide__eyebrow {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+}
+
+.hero--slideshow .hero__title {
+  position: static;
+  width: auto;
+  margin-top: 18px;
+  color: inherit;
+  font-size: clamp(34px, 3.1vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -.4px;
+  white-space: pre-line;
+}
+
+.hero-slide__description {
+  max-width: 46ch;
+  margin-top: 17px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.hero-slide__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 20px;
+  padding: 12px 20px;
+  border: 1px solid var(--hero-ink);
+  border-radius: 999px;
+  background: var(--hero-ink);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.hero-slide__link svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-slide__link:hover { background: transparent; color: var(--hero-ink); }
+
+.hero-slide__content.is-revealing { animation: hero-copy-in .5s var(--ease) both; }
+
+@keyframes hero-copy-in {
+  from { opacity: .15; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-carousel {
+  position: absolute;
+  z-index: 3;
+  bottom: 32px;
+  left: 81px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--hero-ink);
+}
+
+.hero-carousel[hidden] { display: none; }
+
+.hero-carousel__arrow,
+.hero-carousel__toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(87, 35, 43, .55);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.hero-carousel__arrow:hover,
+.hero-carousel__toggle:hover { background: var(--hero-ink); color: var(--white); }
+
+.hero-carousel__arrow svg,
+.hero-carousel__toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-carousel__pagination {
+  display: flex;
+  gap: 5px;
+  margin-left: 18px;
+}
+
+.hero-carousel__dot {
+  position: relative;
+  width: 38px;
+  height: 44px;
+  padding: 0 0 5px;
+  border: 0;
+  background: transparent;
+  color: rgba(87, 35, 43, .78);
+  font: 800 13px/1 var(--font-sans);
+  cursor: pointer;
+  transition: color var(--dur) var(--ease);
+}
+
+.hero-carousel__dot::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 6px;
+  left: 0;
+  height: 2px;
+  background: var(--hero-ink);
+  transform: scaleX(0);
+  transition: transform var(--dur) var(--ease);
+}
+
+.hero-carousel__dot:hover,
+.hero-carousel__dot[aria-pressed="true"] { color: var(--hero-ink); }
+.hero-carousel__dot[aria-pressed="true"]::after { transform: scaleX(1); }
+.hero-carousel__toggle { margin-left: 8px; }
+.hero-carousel__icon--play,
+.hero-carousel__toggle[data-playing="false"] .hero-carousel__icon--pause { display: none; }
+.hero-carousel__toggle[data-playing="false"] .hero-carousel__icon--play { display: block; }
+
+.hero-slide__link:focus-visible,
+.hero-carousel button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.hero--slideshow .donate { z-index: 3; }
 
 /* ---------- Donate (vertical) ---------- */
 .donate {
@@ -343,6 +572,12 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- Banner ---------- */
 .hero--events .hero__pane--flat { background: var(--pink); }
+
+@media (min-width: 1181px) and (max-width: 1347px) {
+  .hero--events .nav__list { margin-left: 24px; }
+  .hero--events .nav__item { width: clamp(118px, 10.8vw, 145px); }
+  .hero--events .nav__link { font-size: clamp(16px, 1.4vw, 18px); }
+}
 
 .event-hero__copy {
   position: absolute;
@@ -464,7 +699,7 @@ a { color: inherit; text-decoration: none; }
 
 /* on the wide layout the row also opens a little on hover; the list is
    single column further down, where that would only eat the text width */
-@media (min-width: 1025px) {
+@media (min-width: 1181px) {
   .event:hover { padding-left: 18px; padding-right: 18px; }
 }
 
@@ -732,7 +967,7 @@ a { color: inherit; text-decoration: none; }
 /* ==========================================================================
    SMALL SCREENS — the two blocks stack
    ========================================================================== */
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .page { margin: 40px auto 48px; }
 
   /* the block becomes a single column that keeps the design's reading
@@ -826,7 +1061,7 @@ a { color: inherit; text-decoration: none; }
 /* ==========================================================================
    EVENTS PAGE — small screens (banner stacks, the list goes single-column)
    ========================================================================== */
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .event-hero__copy {
     order: 2;
     position: static;
@@ -881,6 +1116,80 @@ a { color: inherit; text-decoration: none; }
   .events__note,
   .event__blurb { font-size: 15px; }
 
+  .event__name,
+  .event__meta,
+  .series__name { overflow-wrap: anywhere; }
+
   .host__actions { width: 100%; }
   .host__btn { flex: 1 1 auto; justify-content: center; }
+}
+
+/* ---------- About slideshow on stacked layouts ---------- */
+@media (max-width: 1180px) {
+  .hero--slideshow .hero__panes { order: 5; }
+
+  .hero--slideshow .hero__pane--photo {
+    height: clamp(320px, 52vw, 500px);
+    max-height: none;
+  }
+
+  .hero--slideshow .hero__pane--photo::after { display: none; }
+  .hero--slideshow .nav__item--photo .nav__link,
+  .hero--slideshow .donate { text-shadow: none; }
+
+  /* On a stacked hero all six nav links sit on the peach pane. */
+  .hero--slideshow .nav__item--photo .nav__link { color: var(--hero-ink); }
+  .hero--slideshow .nav__item--photo .nav__link:hover,
+  .hero--slideshow .nav__item--photo .nav__link:focus-visible { color: var(--accent); }
+  .hero--slideshow .nav__item--photo .nav__link::after { background: var(--accent); }
+
+  .hero-slide__content {
+    position: static;
+    order: 2;
+    width: auto;
+    max-width: 640px;
+    margin: 42px 28px 0;
+  }
+
+  .hero--slideshow .hero__title {
+    margin: 18px 0 0;
+    font-size: clamp(32px, 4vw, 46px);
+    white-space: normal;
+  }
+
+  .hero-carousel {
+    position: static;
+    order: 3;
+    align-self: flex-start;
+    margin: 28px 28px 0;
+  }
+
+  .hero--slideshow .donate { order: 4; margin: 24px 28px 34px; }
+}
+
+@media (max-width: 520px) {
+  .hero-slide__content { margin: 34px 24px 0; }
+  .hero--slideshow .hero__title { font-size: 30px; line-height: 1.22; }
+  .hero-slide__description { font-size: 15px; }
+  .hero-carousel { gap: 7px; margin: 22px 24px 0; }
+  .hero-carousel__pagination { gap: 2px; margin-left: 4px; }
+  .hero-carousel__dot { width: 31px; }
+  .hero-carousel__toggle { margin-left: 2px; }
+  .hero--slideshow .donate { margin: 20px 24px 28px; }
+  .hero--slideshow .hero__pane--photo { height: 320px; }
+}
+
+@media (max-width: 355px) {
+  .hero-carousel { flex-wrap: wrap; max-width: calc(100% - 48px); }
+  .hero-carousel__pagination { order: 2; width: 100%; margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero--slideshow .hero__photo,
+  .hero-slide__link,
+  .hero-carousel button,
+  .hero-carousel__dot::after { transition: none; }
+
+  .hero-slide__content.is-revealing { animation: none; }
+  .hero-carousel__toggle { display: none; }
 }
